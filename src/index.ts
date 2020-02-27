@@ -4,7 +4,9 @@
 // import './functions.ts'
 // import './class.ts'
 // import './class2.ts'
-import './class-interface.ts'
+// import './class-interface.ts'
+// import './generics.ts'
+import './advanced.ts'
 
 const hello: string = 'hello TypeScript'
 
