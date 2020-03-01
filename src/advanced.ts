@@ -91,4 +91,140 @@ export default () => {
   p3d = p2d
   p2d = p3d
 
+  // 返回值类型(成员多的兼容成员少的)
+  let f = () => ({ name: 'alice' })
+  let g = () => ({ name: 'alice', location: 'beijing' })
+  f = g
+  // g = f
+
+  function overload(a: number, b: number): number
+  function overload(a: string, b: string): string
+  function overload(a: any, b: any): any { }
+
+  // 枚举类型
+  enum Fruit { Apple, Banana }
+  enum Color { Red, Yellow }
+  let fruit: Fruit.Apple = 1
+  let no: number = Fruit.Apple
+  // let color: Color.Red = Fruit.Apple 枚举之间不兼容
+
+  // 类兼容性,静态成员和构造函数不参与比较,只比较成员,如果有私有成员则不兼容
+  class A {
+    constructor(p: number, q: number) { }
+    id: number = 1
+    private name: string = ''
+  }
+
+  class B {
+    static s = 1
+    constructor(p: number) { }
+    id: number = 2
+    private name: string = ''
+  }
+
+  let aa = new A(1, 2)
+  let bb = new B(1)
+
+  // aa = bb
+  // bb = aa
+
+  class C extends A { }
+  let cc = new C(1, 2)
+  aa = cc
+  cc = aa
+
+  //泛型兼容
+  interface Empty<T> {
+    value: T
+  }
+  // let obj1: Empty<number> = {}
+  // let obj2: Empty<string> = {}
+
+  // obj1 = obj2
+
+  let log1 = <T>(x: T): T => {
+    console.log('x')
+    return x
+  }
+
+  let log2 = <U>(y: U): U => {
+    console.log('y')
+    return y
+  }
+  //不指定参数则兼容
+  log1 = log2
+
+  /**
+   * 当一个类型Y可以被赋值另一个类型X时,我们就可以说类型X兼容类型Y
+   * X兼容Y:X(目标类型)=Y(源类型)
+   * 
+   * 口诀:
+   * 结构之间兼容:成员多的兼容成员多的
+   * 函数之间兼容:参数多的兼容参数少的
+   */
+
+  enum Type { Strong, Week }
+
+  class Java {
+    helloJava() {
+      console.log('Hello Java')
+    }
+    java: any
+  }
+
+  class JavaScript {
+    helloJavaScript() {
+      console.log('Hello JavaScript')
+    }
+    javascript: any
+  }
+  /**
+   * 类型保护
+   * TypeScript能够在特定的区块中保证变量属于某种确定的类型
+   * 可以在此区块中放心地引用此类型的属性,或调用此类的方法
+   */
+  function isJava(lang: Java | JavaScript): lang is Java { //类型伪词
+    return (lang as Java).helloJava !== undefined
+  }
+
+  function getLanguage(type: Type, x?: string | number) {
+    let lang = type === Type.Strong ? new Java() : new JavaScript()
+
+    if (isJava(lang)) {
+      lang.helloJava()
+    } else {
+      lang.helloJavaScript()
+    }
+
+    // if ((lang as Java).helloJava) {
+    //   (lang as Java).helloJava()
+    // } else {
+    //   (lang as JavaScript).helloJavaScript()
+    // }
+    // instanceof
+    // if (lang instanceof Java) {
+    //   lang.helloJava()
+    // } else {
+    //   lang.helloJavaScript()
+    // }
+
+    // in
+    // if ('java' in lang) {
+    //   lang.helloJava()
+    // } else {
+    //   lang.helloJavaScript()
+    // }
+
+    // typeof
+    // if (typeof x === 'string') {
+    //   x.length
+    // } else {
+    //   x.toFixed(2)
+    // }
+
+    return lang
+  }
+
+  getLanguage(Type.Strong)
+
 }
