@@ -6,9 +6,12 @@
 // import './class2.ts'
 // import './class-interface.ts'
 // import './generics.ts'
-import advanced from './advanced'
+// import advanced from './advanced'
+// import advanced_2 from './advanced_2'
+import advanced_3 from './advanced_3'
 
-advanced()
+
+advanced_3()
 
 const hello: string = 'hello TypeScript'
 

@@ -59,15 +59,15 @@ export default () => {
   // hof(handler2)
 
   //可选参数和剩余参数
-  let a = (p1: number, p2: number) => { }
-  let b = (p1?: number, p2?: number) => { }
-  let c = (...args: number[]) => { }
-  a = b
-  a = c
-  b = c
-  b = a
-  c = a
-  c = b
+  // let a = (p1: number, p2: number) => { }
+  // let b = (p1?: number, p2?: number) => { }
+  // let c = (...args: number[]) => { }
+  // a = b
+  // a = c
+  // b = c
+  // b = a
+  // c = a
+  // c = b
 
   //2)参数类型
   let handler3 = (a: string) => { }
@@ -226,5 +226,79 @@ export default () => {
   }
 
   getLanguage(Type.Strong)
+
+
+  interface DogInterface {
+    run(): void
+  }
+
+  interface CatInterface {
+    jump(): void
+  }
+
+  let pet: DogInterface & CatInterface = {
+    // 不是取交集而是并集
+    run() { },
+    jump() { }
+  }
+
+  class Dog implements DogInterface {
+    run() { }
+    eat() { }
+  }
+
+  let a: number | string = 'a'
+  let b: 'b' | 'a' | 'c'
+  let c: 1 | 2 | 3
+
+
+  class Cat implements CatInterface {
+    jump() { }
+    eat() { }
+  }
+
+  enum Master { Boy, Girl }
+
+  function getPet(master: Master) {
+    let pet = master === Master.Boy ? new Dog() : new Cat()
+    //在示例并未确定时，只能访问它的共有成员,交集 
+    pet.eat()
+    // pet.run()
+    return pet
+  }
+
+  interface Square {
+    kind: 'squarea'
+    size: number
+  }
+
+  interface Reactangle {
+    kind: 'reactangle'
+    with: number
+    height: number
+  }
+
+  interface Circle {
+    kind: 'circle'
+    r: number
+  }
+
+  type shape = Square | Reactangle | Circle
+  function area(s: shape) {
+    switch (s.kind) {
+      case 'squarea':
+        return s.size * s.size
+      case 'reactangle':
+        return s.height * s.with
+      case 'circle':
+        return Math.PI * s.r ** 2 
+      default:
+        return ((e: never) => { throw new Error(e) })(s)
+    }
+  }
+  console.log(area({ kind: 'circle', r: 1 }))
+
+  
+
 
 }
