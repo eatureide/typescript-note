@@ -11,7 +11,7 @@ export default () => {
   }
 
   console.log(getValue(obj, ['a', 'b']))
-  console.log(getValue(obj, ['d', 'e']))
+  // console.log(getValue(obj, ['d', 'e']))
 
   // keyof T 类型T的所有公共属性字面量的联合类型
   interface obj {

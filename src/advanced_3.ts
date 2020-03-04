@@ -25,7 +25,5 @@ export default () => {
     return keys.map((key) => obj[key])
   }
 
-  console.log(getValue(obj, ['a', 'b']))
-  console.log(getValue(obj, ['d', 'e']))
-
+  
 }
